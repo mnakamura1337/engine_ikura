@@ -1,0 +1,14 @@
+#!/usr/bin/env ruby
+
+require_relative 'sm2mpx10'
+
+def extract_container(fn)
+  f = Sm2mpx10.from_file(fn)
+  f.index.entries.each { |e|
+    p e
+    File.binwrite("#{@out_dir}/#{e.filename}", e.body)
+  }
+end
+
+@out_dir = ARGV.shift
+ARGV.each { |fn| extract_container(fn) }

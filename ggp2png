@@ -1,0 +1,16 @@
+#!/usr/bin/env ruby
+
+require_relative 'ikura_ggp'
+
+def convert(src, dst)
+  f = IkuraGgp.from_file(src)
+  warn "#{src}: len_regions != 0" if f.len_regions != 0
+  File.binwrite(dst, f.img)
+end
+
+@out_dir = ARGV.shift
+ARGV.each { |fn|
+  puts fn
+  dst = @out_dir + "/" + File.basename(fn).downcase.gsub(/.ggp$/, '.png')
+  convert(fn, dst)
+}
